@@ -185,7 +185,8 @@ class MazeEnv(gym.Env):
         raise Exception("Every geom of the torso must have a name "
                         "defined")
 
-    _, file_path = tempfile.mkstemp(text=True)
+    #_, file_path = tempfile.mkstemp(text=True)
+    _, file_path = tempfile.mkstemp(text=True, suffix='.xml')
     tree.write(file_path)
 
     self.wrapped_env = model_cls(*args, file_path=file_path, **kwargs)
@@ -203,8 +204,9 @@ class MazeEnv(gym.Env):
   def viewer(self):
     return self.wrapped_env.viewer
 
-  def render(self, *args, **kwargs):
-    return self.wrapped_env.render(*args, **kwargs)
+  def render(self, width=200, height=200):
+    #return self.wrapped_env.render(*args, **kwargs)
+    return self.wrapped_env.sim.render(width, height)
 
   @property
   def observation_space(self):
