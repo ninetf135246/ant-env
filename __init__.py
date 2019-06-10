@@ -80,9 +80,9 @@ class EnvWithGoal(object):
         return self.base_env.action_space
 
 
-def run_environment(env_name, episode_length, num_episodes):
+def run_environment(env_name, episode_length, num_episodes, render_size):
     env = EnvWithGoal(
-            create_maze_env.create_maze_env(env_name),
+            create_maze_env.create_maze_env(env_name, render_size=render_size),
             env_name)
 
     def action_fn(obs):
@@ -105,7 +105,7 @@ def run_environment(env_name, episode_length, num_episodes):
         obs = env.reset()
         for _ in range(episode_length):
             env.render()
-            print(env.get_image().shape)
+            #print(env.get_image().shape)
             obs, reward, done, _ = env.step(action_fn(obs))
             rewards[-1] += reward
             successes[-1] = success_fn(reward)
@@ -124,9 +124,11 @@ def run_environment(env_name, episode_length, num_episodes):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument("--env_name", default="AntEnv", type=str)               
-    parser.add_argument("--episode_length", default=500, type=int)      
-    parser.add_argument("--num_episodes", default=100, type=int)
+    parser.add_argument("--env-name", default="AntMaze", type=str)               
+    parser.add_argument("--ep-len", default=500, type=int)      
+    parser.add_argument("--num-ep", default=100, type=int)
+    parser.add_argument("--render-h", default=200, type=int)
+    parser.add_argument("--render-w", default=200, type=int)
 
     args = parser.parse_args()
-    run_environment(args.env_name, args.episode_length, args.num_episodes)
+    run_environment(args.env_name, args.ep_len, args.num_ep, (args.render_w, args.render_h))

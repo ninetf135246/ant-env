@@ -16,7 +16,7 @@
 from ant_maze_env import AntMazeEnv
 
 
-def create_maze_env(env_name=None):
+def create_maze_env(env_name=None, render_size=(50,50)):
   maze_id = None
   if env_name.startswith('AntMaze'):
     maze_id = 'Maze'
@@ -27,4 +27,4 @@ def create_maze_env(env_name=None):
   else:
     raise ValueError('Unknown maze environment %s' % env_name)
 
-  return AntMazeEnv(maze_id=maze_id)
+  return AntMazeEnv(maze_id=maze_id, render_size=render_size)

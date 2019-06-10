@@ -39,9 +39,11 @@ class MazeEnv(gym.Env):
       maze_id=None,
       maze_height=0.5,
       maze_size_scaling=8,
+      render_size=(50,50),
       *args,
       **kwargs):
     self._maze_id = maze_id
+    self.render_size = render_size
 
     model_cls = self.__class__.MODEL_CLASS
     if model_cls is None:
@@ -204,9 +206,9 @@ class MazeEnv(gym.Env):
   def viewer(self):
     return self.wrapped_env.viewer
 
-  def render(self, width=200, height=200):
+  def render(self):
     #return self.wrapped_env.render(*args, **kwargs)
-    return self.wrapped_env.sim.render(width, height)
+    return self.wrapped_env.sim.render(self.render_size[0], self.render_size[1])#width, height
 
   @property
   def observation_space(self):
